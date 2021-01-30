@@ -1,0 +1,68 @@
+<app-overlay>
+    <div>
+        <mat-toolbar color="primary">
+            <span class="fill-remaining-space">Add Property</span>
+        </mat-toolbar>
+        <div class="property-form">
+            <form [formGroup]="propertyFormGroup" class="form">
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Property name" formControlName="propertyname">
+                    <mat-error *ngIf="!propertyFormGroup.controls['propertyname'].valid && propertyFormGroup.controls['propertyname'].touched">
+                        <span *ngIf="propertyFormGroup.controls['propertyname'].errors!.required">Property name is mandatory. </span>
+                        <span *ngIf="propertyFormGroup.controls['propertyname'].errors!.pattern">Property name is invalid. </span>
+                        <span *ngIf="propertyFormGroup.controls['propertyname'].errors!.maxlength">Propery name should be less than 64 characters. </span>
+                    </mat-error>
+                    <mat-error *ngIf="propertyFormGroup.controls['propertyname'].errors?.serverError">
+                        {{ propertyFormGroup.controls['propertyname'].errors?.serverError }}
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="form-element">
+                    <input matInput placeholder="Address line 1" formControlName="addressline_1">
+                    <mat-error *ngIf="!propertyFormGroup.controls['addressline_1'].valid && propertyFormGroup.controls['addressline_1'].touched">
+                        <span *ngIf="propertyFormGroup.controls['addressline_1'].errors!.required">Address line 1 is mandatory. </span>
+                        <span *ngIf="propertyFormGroup.controls['addressline_1'].errors!.pattern">Address line 1 is invalid. </span>
+                        <span *ngIf="propertyFormGroup.controls['addressline_1'].errors!.maxlength">Address line 1 should be less than 128 characters. </span>
+                    </mat-error>
+                    <mat-error *ngIf="propertyFormGroup.controls['addressline_1'].errors?.serverError">
+                        {{ propertyFormGroup.controls['addressline_1'].errors?.serverError }}
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="form-element">
+                    <input matInput placeholder="Address line 2" formControlName="addressline_2">
+                    <mat-error *ngIf="!propertyFormGroup.controls['addressline_2'].valid && propertyFormGroup.controls['addressline_2'].touched">
+                        <span *ngIf="propertyFormGroup.controls['addressline_2'].errors!.pattern">Address line 2 is invalid. </span>
+                        <span *ngIf="propertyFormGroup.controls['addressline_2'].errors!.maxlength">Address line 2 should be less than 64 characters. </span>
+                    </mat-error>
+                    <mat-error *ngIf="propertyFormGroup.controls['addressline_2'].errors?.serverError">
+                        {{ propertyFormGroup.controls['addressline_2'].errors?.serverError }}
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="form-element">
+                    <input matInput placeholder="City" formControlName="city">
+                    <mat-error *ngIf="!propertyFormGroup.controls['city'].valid && propertyFormGroup.controls['city'].touched">
+                        <span *ngIf="propertyFormGroup.controls['city'].errors!.required">City is mandatory. </span>
+                        <span *ngIf="propertyFormGroup.controls['city'].errors!.pattern">City is invalid. </span>
+                        <span *ngIf="propertyFormGroup.controls['city'].errors!.maxlength">City should be less than 64 characters. </span>
+                    </mat-error>
+                    <mat-error *ngIf="propertyFormGroup.controls['city'].errors?.serverError">
+                        {{ propertyFormGroup.controls['city'].errors?.serverError }}
+                      </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="form-element">
+                    <input matInput placeholder="Postal" formControlName="postal">
+                    <mat-error *ngIf="!propertyFormGroup.controls['postal'].valid && propertyFormGroup.controls['postal'].touched">
+                        <span *ngIf="propertyFormGroup.controls['postal'].errors!.required">Postal is mandatory. </span>
+                        <span *ngIf="propertyFormGroup.controls['postal'].errors!.pattern">Postal must contain 5 digits. </span>
+                    </mat-error>
+                    <mat-error *ngIf="propertyFormGroup.controls['postal'].errors?.serverError">
+                        {{ propertyFormGroup.controls['postal'].errors?.serverError }}
+                      </mat-error>
+                  </mat-form-field>
+                  <div class="form-buttons">
+                    <button mat-raised-button color="primary" [disabled]="!propertyFormGroup.valid" (click)="save()">Save</button>
+                    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+                </div>
+              </form>
+        </div>
+    </div>
+</app-overlay>

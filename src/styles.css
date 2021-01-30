@@ -1,1 +1,137 @@
-/* You can add global styles to this file, and also import other style files */
+
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    background: transparent;
+}
+body {
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif !important;
+    color: #3c4257;
+    font-size: 14px;
+}
+.Text-fontSize--20 {font-size: 20px;}
+.Text-color--dark {color: #1a1f36;}
+.Text-fontWeight--regular {font-weight: 400;}
+.Text-fontWeight--medium {font-weight: 500;}
+.Text-fontWeight--bold {font-weight: 700;}
+.Text-color--blue {color: #5469d4;}
+.Text-color--darkgrey {color:#4F566B}
+.Text-color--red {
+    color: #cd3d64;
+}
+.Text-color--white {
+    color: #fff;
+}
+.Text-fontSize--12 {
+    font-size: 12px;
+}
+.Text-fontSize--13 {
+    font-size: 13px;
+}
+.Text-fontSize--14 {
+    font-size: 14px;
+}
+.Text-fontSize--15 {
+    font-size: 15px;
+}
+.Text-fontSize--16{
+	font-size: 16px;
+}
+.Text-fontSize--28{
+	font-size: 28px;
+}
+.Text-fontSize--25{
+	font-size: 25px;
+}
+.Padding-top--48{padding-top:48px}
+.Padding-top--25{padding-top:25px}
+.Padding-left--10{padding-left:10px}
+.Padding-left--20{padding-left:20px}
+.Padding-horizontal--48{padding-right:48px;padding-left:48px}
+.Padding-horizontal--5{padding-right:5px;padding-left:5px}
+.Padding-horizontal--40{padding-right:40px;padding-left:40px}
+.Padding-vertical--10{padding-top: 10px;padding-bottom: 10px;}
+.Padding-vertical--5{padding-top: 5px;padding-bottom: 5px;}
+.Padding-vertical--15{padding-top: 15px;padding-bottom: 15px;}
+.Padding-bottom--32{padding-bottom:32px}
+li {
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    display: contents;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.green-progress .mat-progress-bar-fill::after {
+    background-color: #34A42D !important;
+}
+mat-progress-bar .mat-progress-bar-buffer {
+    background: #E4E8EB;
+}
+.progress-wrapper{
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    z-index: 99;
+}
+
+.active-list-item {
+    color: #3F51B5 !important;
+  }
+
+  .app-sidenav {
+    min-width: 200px;
+    max-width: 100%;
+  }
+
+  /* width */
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+simple-snack-bar span {
+    margin: auto;
+    text-align: center;
+    color: white;
+}
+
+.red-snackbar {
+    background: #af1e13;
+}
+
+.green-snackbar {
+    background: #1f9117;
+}
+
+.property-form{
+    background-color: white;
+    padding: 40px;
+}
+
+.action-buttons {
+    display: table-cell;
+    position: absolute;
+    z-index: 10;
+}

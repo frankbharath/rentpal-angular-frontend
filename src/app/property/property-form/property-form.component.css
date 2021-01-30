@@ -1,0 +1,16 @@
+button{
+    margin: 0px 10px;
+}
+.form {
+    width:400px;
+  }
+  
+  .form-element {
+    padding: 5px 0px 25px 2px;
+    width: 100%;
+  }
+
+.form-buttons{
+    margin:0 auto;
+    display: table;
+}
