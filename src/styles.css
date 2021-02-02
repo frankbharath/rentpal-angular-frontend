@@ -128,10 +128,56 @@ simple-snack-bar span {
 .property-form{
     background-color: white;
     padding: 40px;
+    max-height: 63vh;
+    overflow: auto;
 }
 
 .action-buttons {
     display: table-cell;
     position: absolute;
     z-index: 10;
+}
+
+.action-buttons .mat-button-base {
+    margin: 8px 8px 8px 0;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead tr th {
+    position: sticky;
+    top: 0;
+  }
+
+.scrollable-table-wrapper{
+    height: 71vh;
+    overflow: auto;
+}
+
+.search-mat-field{
+    justify-content: center;
+    display: flex;
+}
+.mat-row{
+    cursor: pointer;
+}
+
+.form {
+    width:400px;
+}
+  
+.form-element {
+    padding: 5px 0px 25px 2px;
+    width: 100%;
+}
+
+.form-buttons{
+    margin:0 auto;
+    display: table;
+}
+.property-form button{
+    margin: 0px 10px;
 }

@@ -1,11 +1,19 @@
 <div (click)="$event.stopPropagation()">
-    <div class="action-buttons">
-        <button mat-raised-button color="primary" (click)="addProperty()">Add</button>
-        <button mat-raised-button color="warn" (click)="bulkDelete($event)" [disabled]="disableDeleteButton()">Delete</button>
+    <div>
+        <div class="action-buttons">
+            <button mat-raised-button color="primary" (click)="addProperty($event)">Add</button>
+            <button mat-raised-button color="warn" (click)="bulkDelete($event)" [disabled]="disableDeleteButton()">Delete</button>
+        </div>
+        <div class="search-property">
+            <mat-form-field class="search-mat-field">
+                <input matInput placeholder="Search properties" #searchInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async" ></mat-paginator>
+   
+        </div>
     </div>
-    <mat-form-field class="search-mat-field">
-        <input matInput placeholder="Search properties" #searchInput>
-    </mat-form-field>
     <div class="scrollable-table-wrapper">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Checkbox Column -->
@@ -59,7 +67,7 @@
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
-            <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary">
+            <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" (click)="editproperty($event, element)" color="primary">
                 <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
             <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" (click)="delete($event, element)" color="warn">
@@ -69,12 +77,11 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-        (click)="selection.toggle(row)">
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"  matTooltip="Click to see unit information." (click)="loadUnits(row)">
     </tr>
     </table>
     </div>
-    <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async" ></mat-paginator>
+    
     
 </div>
 <router-outlet></router-outlet>

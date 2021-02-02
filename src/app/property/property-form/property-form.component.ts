@@ -4,7 +4,7 @@ import { Property } from 'src/app/share/models/property.model';
 import { Location } from '@angular/common';
 import { Utils } from 'src/app/share/utils';
 import { PropertyService } from 'src/app/core/property.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-property-form',
@@ -15,25 +15,37 @@ export class PropertyFormComponent implements OnInit {
 
   propertyFormGroup!: FormGroup; 
   property:Property=new Property();
-
+  propertyId!:any;
   constructor(
     private fb: FormBuilder, 
     private _location: Location, 
     private propertyService:PropertyService,
-    private _utils: Utils) { }
+    private _utils: Utils,
+    private route:ActivatedRoute,
+    private activatedRoute:ActivatedRoute) {}
  
   ngOnInit() {
+    this.propertyId=this.activatedRoute.snapshot.paramMap.get("id");
+    if(!this.isAddForm()){
+      this.route.data.subscribe(data=>{
+        this.property=data.property;
+      });
+    }
     this.propertyFormGroup = this.fb.group({
-      propertyname: ['',[Utils.removeSpaces, Validators.required, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(64)]],
-      addressline_1: ['',[Utils.removeSpaces, Validators.required, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(128)]],
-      addressline_2:['', [Utils.removeSpaces, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(128)]],
-      postal:['',[Utils.removeSpaces, Validators.required, Validators.pattern('^[0-9]{5}$')]],
-      city:['',[Utils.removeSpaces, Validators.required, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(64)]]
+      propertyname: [this.property.propertyname,[Utils.removeSpaces, Validators.required, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(64)]],
+      addressline_1: [this.property.addressline_1,[Utils.removeSpaces, Validators.required, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(128)]],
+      addressline_2:[this.property.addressline_2, [Utils.removeSpaces, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(128)]],
+      postal:[this.property.postal,[Utils.removeSpaces, Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      city:[this.property.city,[Utils.removeSpaces, Validators.required, Validators.pattern('^[^`~.><":{}=+]+$'), Validators.minLength(1), Validators.maxLength(64)]]
     });
   }
 
   close():void{
     this._location.back();
+  }
+
+  isAddForm():boolean{
+    return this.propertyId===null;
   }
 
   async save():Promise<void>{
@@ -46,8 +58,13 @@ export class PropertyFormComponent implements OnInit {
       city:this.propertyFormGroup.controls.city.value
     }
     try{
-      await this.propertyService.saveProperty(this.property);
-      this._utils.showMessage("Property added successfully.");
+      if(!this.isAddForm()){
+        await this.propertyService.updateProperty(this.property);
+        this._utils.showMessage("Property updated successfully.");
+      }else{
+        await this.propertyService.saveProperty(this.property);
+        this._utils.showMessage("Property added successfully.");
+      }
       this._location.back();
     }catch(ex){
       if(ex.status === 422){

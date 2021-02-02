@@ -1,23 +1,5 @@
-table{
-    width: 100%;
-    border-collapse: collapse;
-}
 
-thead tr th {
-    position: sticky;
-    top: 0;
+  .search-property{
+    position: absolute;
+    left: 43%;
   }
-
-.scrollable-table-wrapper{
-    height: 71vh;
-    overflow: auto;
-}
-
-.action-buttons .mat-button-base {
-    margin: 8px 8px 8px 0;
-}
-.search-mat-field{
-    justify-content: center;
-    display: flex;
-}
-  

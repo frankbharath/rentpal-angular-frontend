@@ -1,7 +1,7 @@
 <app-overlay>
     <div>
         <mat-toolbar color="primary">
-            <span class="fill-remaining-space">Add Property</span>
+            <span class="fill-remaining-space">{{isAddForm()?'Add Property':'Edit Property'}}</span>
         </mat-toolbar>
         <div class="property-form">
             <form [formGroup]="propertyFormGroup" class="form">

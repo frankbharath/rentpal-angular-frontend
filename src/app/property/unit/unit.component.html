@@ -1,0 +1,83 @@
+<div (click)="$event.stopPropagation()">
+    <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="toggleAddForm()">Add</button>
+        <button mat-raised-button color="warn" (click)="bulkDelete()" [disabled]="disableDeleteButton()">Delete</button>
+        <button mat-raised-button (click)="goBack()">Go back</button>
+    </div>
+    <mat-paginator class="search-mat-field" [pageSize]="_pageSize" [pageSizeOptions]="[25, 50, 100]" [length]="totalUnits() | async" ></mat-paginator>
+    <div class="scrollable-table-wrapper">
+        <table mat-table [dataSource]="_dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="doorNumber">
+                <th mat-header-cell *matHeaderCellDef> Door number </th>
+                <td mat-cell *matCellDef="let element"> {{element.doorNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="floorNumber">
+                <th mat-header-cell *matHeaderCellDef> Floor number </th>
+                <td mat-cell *matCellDef="let element"> {{element.floorNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bedrooms">
+                <th mat-header-cell *matHeaderCellDef> Bed Rooms </th>
+                <td mat-cell *matCellDef="let element"> {{element.bedrooms}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bathrooms">
+                <th mat-header-cell *matHeaderCellDef> Bath Rooms </th>
+                <td mat-cell *matCellDef="let element"> {{element.bathrooms}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="area">
+                <th mat-header-cell *matHeaderCellDef> Area </th>
+                <td mat-cell *matCellDef="let element"> {{element.area}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rent">
+                <th mat-header-cell *matHeaderCellDef> Rent </th>
+                <td mat-cell *matCellDef="let element"> {{element.rent}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cautionDeposit">
+                <th mat-header-cell *matHeaderCellDef> Caution Deposit </th>
+                <td mat-cell *matCellDef="let element"> {{element.cautionDeposit}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="furnished">
+                <th mat-header-cell *matHeaderCellDef> Furnished </th>
+                <td mat-cell *matCellDef="let element"> {{element.furnished}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn" (click)="deleteUnit($event, element)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+        </table>
+    </div>
+</div>
+<app-unit-form *ngIf="_hideAddForm" (closeForm)="toggleAddForm()" [propertyId]="propertyId" (refreshTable)="refreshTable()"></app-unit-form>

@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PropertyResolverService } from './core/property-resolver.service';
+import { UnitResolverService } from './core/unit-resolver.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { PropertyFormComponent } from './property/property-form/property-form.component';
 import { PropertyComponent } from './property/property.component';
+import { UnitComponent } from './property/unit/unit.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TenantComponent } from './tenant/tenant.component';
 
@@ -30,8 +32,22 @@ const routes: Routes = [
           {
             path:"add",
             component:PropertyFormComponent
-          }
+          },
+          {
+            path:"edit/:id",
+            component:PropertyFormComponent,
+            resolve:{
+              property:PropertyResolverService
+            }
+          },
         ]
+      },
+      {
+        path:"properties/:id/units",
+        component:UnitComponent,
+        resolve:{
+          unit:UnitResolverService
+        }
       },
       {
         path:"tenants", 

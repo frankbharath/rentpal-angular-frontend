@@ -9,7 +9,7 @@ import { ConfirmDialogComponent, ConfirmDialogModel } from '../share/confirm-dia
 import { Property } from '../share/models/property.model';
 import { PropertyDataSource } from '../core/property-data-source';
 import { PropertyService } from '../core/property.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Utils } from '../share/utils';
 
 
 @Component({
@@ -23,7 +23,9 @@ export class PropertyComponent implements OnInit, AfterViewInit {
   pageSize=50;
   displayedColumns: string[] = ['select', 'propertyname', 'creationtime', 'addressline_1', 'addressline_2', 'city', 'postal', 'actions'];
   dataSource!:PropertyDataSource;
+
   selection = new SelectionModel<Property>(true, []);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('searchInput') searchInput!: ElementRef;
 
@@ -31,7 +33,7 @@ export class PropertyComponent implements OnInit, AfterViewInit {
     private route:ActivatedRoute, 
     private propertyService:PropertyService, 
     private dialog: MatDialog, 
-    private _snackBar: MatSnackBar,
+    private _utils:Utils,
     private router: Router) {}
   
   ngOnInit(): void {
@@ -41,7 +43,6 @@ export class PropertyComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
     this.paginator.page.subscribe((data: any)=>{
       this.paginator.pageIndex = data.pageSize!==this.pageSize?0:data.pageIndex;
       this.pageSize=data.pageSize;
@@ -92,19 +93,19 @@ export class PropertyComponent implements OnInit, AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row `;
   }
 
-  addProperty():void{
+  addProperty(event:MouseEvent):void{
+    event.stopPropagation();
     this.router.navigate(['/properties/add']);
+  }
+
+  editproperty(event:MouseEvent, element:Property):void{
+    event.stopPropagation();
+    this.router.navigate([`/properties/edit/${element.id}`]);
   }
 
   bulkDelete(event:MouseEvent):void{
     event.stopPropagation();
-    const message = `Are you sure you want to delete selected properties?`;
-    const dialogData = new ConfirmDialogModel("Confirm Delete", message);
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-
+    const dialogRef = this._utils.confirmDialog("Confirm Delete", "Are you sure you want to delete selected properties?");
     dialogRef.afterClosed().subscribe(async dialogResult => {
       if(dialogResult){
         let selectedIds=this.dataSource.data.filter(row=>this.selection.isSelected(row)).map(row=>row.id);
@@ -113,11 +114,7 @@ export class PropertyComponent implements OnInit, AfterViewInit {
         }
         try{
           await this.propertyService.deleteProperties(selectedIds);
-          this._snackBar.open("Selected properties deleted successfully.", '', {
-            duration: 5000,
-            panelClass: ["green-snackbar"],
-            verticalPosition: 'top'
-          });
+          this._utils.showMessage("Selected properties deleted successfully.");
           this.loadProperties(true);
         }catch(error){}
       }
@@ -126,20 +123,11 @@ export class PropertyComponent implements OnInit, AfterViewInit {
 
   delete(event:MouseEvent, element:Property):void{
     event.stopPropagation();
-    const message = `Are you sure you want to delete the property?`;
-    const dialogData = new ConfirmDialogModel("Confirm Delete", message);
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
+    const dialogRef = this._utils.confirmDialog("Confirm Delete", "Are you sure you want to delete the property?");
     dialogRef.afterClosed().subscribe(async dialogResult => {
       if(dialogResult){
         await this.propertyService.deleteProperty(element.id);
-        this._snackBar.open("Property deleted successfully.", '', {
-          duration: 5000,
-          panelClass: ["green-snackbar"],
-          verticalPosition: 'top'
-        });
+        this._utils.showMessage("Property deleted successfully.");
         this.loadProperties(true);
       }
     });
@@ -149,5 +137,9 @@ export class PropertyComponent implements OnInit, AfterViewInit {
     this.selection.clear();
     let params={"pageIndex":this.paginator.pageIndex, "pageSize":this.paginator.pageSize, "searchQuery":this.searchInput.nativeElement.value, "countRequired":countRequired};
     this.dataSource.loadProperties(params);
+  }
+
+  loadUnits(property:Property){
+    this.router.navigate([`/properties/${property.id}/units`]);
   }
 }
