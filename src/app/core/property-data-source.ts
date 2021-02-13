@@ -1,20 +1,14 @@
 import { MatTableDataSource } from "@angular/material/table";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { Property } from "../share/models/property.model";
 import { PopertyParams, PropertyService } from "./property.service";
 
 export class PropertyDataSource extends MatTableDataSource<Property>{
     private properties = new BehaviorSubject<Property[]>([]);
-
-    private updatePropertyObservable:any;
     
-    constructor(private propertyService:PropertyService, private initialData:Property[]=[]) {
+    constructor(private propertyService:PropertyService, initialData:Property[]=[]) {
         super(initialData);
-        this.properties.next(this.initialData);
-        this.updatePropertyObservable = this.propertyService.updatePropertyObservable().subscribe(updatedProperty=>{
-            this.data=this.data.map(property=>property.id===updatedProperty.id?updatedProperty:property);
-            this.properties.next(this.data);
-        });
+        this.properties.next(initialData);
     }
     
     connect(): BehaviorSubject<Property[]> {
@@ -23,7 +17,6 @@ export class PropertyDataSource extends MatTableDataSource<Property>{
 
     disconnect(): void {
         this.properties.unsubscribe();
-        //this.updatePropertyObservable.unsubscribe();
     }
     
     loadProperties(params?:PopertyParams){
@@ -31,5 +24,15 @@ export class PropertyDataSource extends MatTableDataSource<Property>{
             this.properties.next(data);
             this.data=data;
         });
+    }
+
+    updateProperty(property:Property){
+        this.data=this.data.map(data=>property.id===data.id?property:data);
+        this.properties.next(this.data);
+    }
+
+    addProperty(property:Property){
+        this.data.push(property);
+        this.properties.next(this.data);
     }
 }

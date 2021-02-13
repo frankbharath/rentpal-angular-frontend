@@ -1,1 +1,52 @@
-<p>tenant works!</p>
+<div (click)="$event.stopPropagation()">
+    <div>
+        <div class="action-buttons">
+            <button mat-raised-button color="primary" (click)="showTenantForm()">Add tenant</button>
+        </div>
+        <div>
+            <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async"></mat-paginator>
+        </div>
+    </div>
+    <div class="scrollable-table-wrapper">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+            <ng-container matColumnDef="{{column[0]}}" *ngFor="let column of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef width="12%"> {{column[1]}} </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element[column[0]].length>20?element[column[0]]:''"> {{element[column[0]] | truncate:20 }} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef><p>Action</p></th>
+                <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" (click)="delete($event, element)" color="warn">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="headerColumns.length">
+                    <div class="table-moreinfo" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div>
+                            <div><b>Rented Property </b></div>
+                            <div class="Padding-top--5">Unit #{{element.unitDTO.doorNumber}}, Floor Number {{element.unitDTO.floorNumber}}</div>
+                            <div class="Padding-top--5">{{element.unitDTO.propertyDTO.propertyname}}</div>
+                            <div class="Padding-top--5">{{element.unitDTO.propertyDTO.addressline_1}}</div>
+                            <div class="Padding-top--5">{{element.unitDTO.propertyDTO.addressline_2}}</div>
+                            <div class="Padding-top--5 Padding-bottom--5">{{element.unitDTO.propertyDTO.postal}}, {{element.unitDTO.propertyDTO.city}}</div>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="headerColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: headerColumns;" 
+                class="element-row"
+                [class.expanded-row]="expandedElement === row"
+                (click)="expandedElement = expandedElement === row ? null : row" matTooltip="Click to see more information"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row" (click)="expandedElement = expandedElement === row ? null : row"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" [attr.colspan]="headerColumns.length" style="text-align: center;">
+                  No tenants found.
+                </td>
+              </tr>
+        </table> 
+    </div>
+</div>
+<app-tenant-form *ngIf="hideAddForm" (close)="toggleAddForm()" (updateAndClose)="updateAndClose($event)"></app-tenant-form>

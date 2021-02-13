@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfirmDialogModel, ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
+import { ChartOptions, PieChartOptions } from "./models/chart-options.model";
 
 @Injectable({
     providedIn: 'root'
@@ -33,5 +34,117 @@ export class Utils{
             data: dialogData
         });
         return dialogRef;
+    }
+    static lineChartConfig():ChartOptions{
+        return {
+            series:[
+              {
+                name: "Rent",
+                data: []
+              }
+            ],
+            chart: {
+              height: 300,
+              type: "line",
+              zoom: {
+                enabled: false
+              }
+            },
+            dataLabels: {
+              enabled: true,
+              formatter(value){
+                if(value){
+                  return value+" €";
+                }
+                return value;
+              }
+            },
+            stroke: {
+              curve: "straight"
+            },
+            title: {
+              text: "Rent received in last 12 months",
+              align: "center",
+              style:{
+                fontFamily:'Roboto, "Helvetica Neue", sans-serif'
+              }
+            },
+            grid: {
+              row: {
+                colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                opacity: 0.5
+              }
+            },
+            xaxis: {
+              categories: []
+            },
+            noData:{
+              text:"No data",
+              align:"center",
+              verticalAlign: "middle"
+            }
+        }
+    }
+    static linePieChartOptions():PieChartOptions{
+        return {
+            series: [],
+            chart: {
+                width: "64%",
+                type: "donut"
+            },
+            labels: [],
+            responsive: [
+                {
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                    position: "bottom"
+                    }
+                }
+                }
+            ],
+            title: {
+              text: "Top revenue generated properties in last 12 months",
+              align: "center",
+              style:{
+                fontFamily:'Roboto, "Helvetica Neue", sans-serif'
+              }
+            },
+            plotOptions:{
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                    name:{
+                      show:true
+                    },
+                    value:{
+                      show:true,
+                      formatter(value){
+                        return value+" €";
+                      }
+                    },
+                    total:{
+                      show:true,
+                      formatter(value){
+                        return Array(...value["globals"].series).reduce((sum, val)=>sum+val)+" €";
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            apexLegend:{
+              show:true
+            },
+            noData:{
+              text:"No data",
+              align:"center",
+              verticalAlign: "middle"
+            }
+        }
     }
 }

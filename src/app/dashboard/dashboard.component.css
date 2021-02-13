@@ -1,0 +1,19 @@
+.chart{
+    max-width: 50%;
+    width: 48%;
+    float: left;
+    border-style: groove;
+    border-width: 2px;
+    border-radius: 4px;
+    height: 40vh;
+    margin-right: 20px;
+}
+.apexcharts-canvas{
+    margin:0 auto !important;
+}
+.upcoming-payment-div{
+    height: 40vh;
+    overflow: auto;
+    display: block;
+    clear: both;
+}

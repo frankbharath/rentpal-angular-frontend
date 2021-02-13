@@ -20,7 +20,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -68,7 +70,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MomentDateModule
   ]
 })
 export class MaterialModule { }

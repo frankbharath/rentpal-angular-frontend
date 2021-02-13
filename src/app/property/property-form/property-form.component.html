@@ -1,7 +1,7 @@
 <app-overlay>
     <div>
         <mat-toolbar color="primary">
-            <span class="fill-remaining-space">{{isAddForm()?'Add Property':'Edit Property'}}</span>
+            <span class="fill-remaining-space">{{isAddForm?'Add Property':'Edit Property'}}</span>
         </mat-toolbar>
         <div class="property-form">
             <form [formGroup]="propertyFormGroup" class="form">
@@ -59,8 +59,8 @@
                       </mat-error>
                   </mat-form-field>
                   <div class="form-buttons">
-                    <button mat-raised-button color="primary" [disabled]="!propertyFormGroup.valid" (click)="save()">Save</button>
-                    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+                    <button mat-raised-button color="primary" [disabled]="!propertyFormGroup.valid || disableSubmit" (click)="save()">Save</button>
+                    <button mat-raised-button color="warn" (click)="closeFun()">Cancel</button>
                 </div>
               </form>
         </div>

@@ -13,11 +13,13 @@ import { InterceptorService } from './core/interceptor.service';
 import { NavigationModule } from './navigation/navigation.module';
 import { ShareModule } from './share/share.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent
   ],
   imports: [
     ShareModule,

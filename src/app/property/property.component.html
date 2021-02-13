@@ -1,24 +1,23 @@
 <div (click)="$event.stopPropagation()">
     <div>
         <div class="action-buttons">
-            <button mat-raised-button color="primary" (click)="addProperty($event)">Add</button>
+            <button mat-raised-button color="primary" (click)="showProperty()">Add property</button>
             <button mat-raised-button color="warn" (click)="bulkDelete($event)" [disabled]="disableDeleteButton()">Delete</button>
         </div>
         <div class="search-property">
             <mat-form-field class="search-mat-field">
-                <input matInput placeholder="Search properties" #searchInput>
+                <input matInput placeholder="Search properties" #searchInput [value]="searchQuery">
             </mat-form-field>
         </div>
         <div>
-            <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async" ></mat-paginator>
-   
+            <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async" ></mat-paginator>
         </div>
     </div>
     <div class="scrollable-table-wrapper">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef width="5%">
         <mat-checkbox (change)="$event ? masterToggle() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
                         [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -35,39 +34,42 @@
     </ng-container>
 
     <ng-container matColumnDef="propertyname">
-        <th mat-header-cell *matHeaderCellDef> Property name </th>
-        <td mat-cell *matCellDef="let element"> {{element.propertyname}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="creationtime">
-        <th mat-header-cell *matHeaderCellDef> Creation time</th>
-        <td mat-cell *matCellDef="let element"> {{element.creationtime}} </td>
+        <th mat-header-cell *matHeaderCellDef width="15%">Property name </th>
+        <td mat-cell *matCellDef="let element" [matTooltip]="element.propertyname"> {{element.propertyname | truncate:20}} </td>
     </ng-container>
 
     <ng-container matColumnDef="addressline_1">
-        <th mat-header-cell *matHeaderCellDef> Address Line 1 </th>
-        <td mat-cell *matCellDef="let element"> {{element.addressline_1}} </td>
+        <th mat-header-cell *matHeaderCellDef width="15%">Address Line 1 </th>
+        <td mat-cell *matCellDef="let element" [matTooltip]="element.addressline_1"> {{element.addressline_1| truncate:20}} </td>
     </ng-container>
 
     <ng-container matColumnDef="addressline_2">
-        <th mat-header-cell *matHeaderCellDef> Address Line 2 </th>
-        <td mat-cell *matCellDef="let element"> {{element.addressline_2}} </td>
+        <th mat-header-cell *matHeaderCellDef width="15%">Address Line 2 </th>
+        <td mat-cell *matCellDef="let element" [matTooltip]="element.addressline_2"> {{element.addressline_2 | truncate:20}} </td>
     </ng-container>
 
     <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef> City </th>
-        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+        <th mat-header-cell *matHeaderCellDef width="15%">City </th>
+        <td mat-cell *matCellDef="let element" [matTooltip]="element.city"> {{element.city | truncate:20}} </td>
     </ng-container>
 
     <ng-container matColumnDef="postal">
-        <th mat-header-cell *matHeaderCellDef> Postal </th>
+        <th mat-header-cell *matHeaderCellDef width="12%">Postal </th>
         <td mat-cell *matCellDef="let element"> {{element.postal}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="creationtime">
+        <th mat-header-cell *matHeaderCellDef width="12%">Creation time</th>
+        <td mat-cell *matCellDef="let element"> {{element.creationtime}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef><p style="margin: 0;padding-left: 12%;">Actions</p></th>
         <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
-            <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" (click)="editproperty($event, element)" color="primary">
+            <button mat-icon-button matTooltip="Click to see unit information." class="iconbutton" (click)="loadUnits(element)">
+                <mat-icon aria-label="Show">add</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" (click)="showProperty(element)" color="primary">
                 <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
             <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" (click)="delete($event, element)" color="warn">
@@ -77,11 +79,13 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"  matTooltip="Click to see unit information." (click)="loadUnits(row)">
-    </tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center;">
+          No properties found for the given criteria.
+        </td>
+      </tr>
     </table>
-    </div>
-    
-    
+    </div>  
 </div>
-<router-outlet></router-outlet>
+<app-property-form *ngIf="hideAddForm" (updateAndClose)="updateAndClose($event)" (close)="toggleAddForm()" [property]="property"></app-property-form>

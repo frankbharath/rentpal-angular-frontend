@@ -5,7 +5,7 @@
               <h2 matLine>Dashboard</h2>
               <mat-icon matListIcon>dashboard</mat-icon>
           </a>
-          <a mat-list-item routerLink="/properties" routerLinkActive="active-list-item">
+          <a mat-list-item [routerLink]="['/properties']"  routerLinkActive="active-list-item">
               <h2 matLine>Properties</h2>
               <mat-icon matListIcon>home</mat-icon>
           </a>
@@ -13,10 +13,18 @@
               <h2 matLine>Tenants</h2>
               <mat-icon matListIcon>supervisor_account</mat-icon>
           </a>
-          <a mat-list-item routerLink="/settings" routerLinkActive="active-list-item">
-              <h2 matLine>Settings</h2>
+           <a mat-list-item routerLink="/profile" routerLinkActive="active-list-item">
+              <h2 matLine>Profile</h2>
               <mat-icon matListIcon>settings</mat-icon>
           </a>
+          <!--a mat-list-item routerLink="/settings" routerLinkActive="active-list-item">
+              <h2 matLine>Settings</h2>
+              <mat-icon matListIcon>settings</mat-icon>
+          </a-->
+          <a mat-list-item (click)="logout()">
+            <h2 matLine>Logout</h2>
+            <mat-icon matListIcon>logout</mat-icon>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
   
@@ -25,7 +33,6 @@
           <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
       </mat-toolbar>
       <div style="width: 90%;margin: 20px auto;">
-        
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>

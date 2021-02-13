@@ -1,1 +1,60 @@
-<p>dashboard works!</p>
+<div id="chart" class="chart">
+    <apx-chart *ngIf="!chartLoading"
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [dataLabels]="chartOptions.dataLabels"
+      [grid]="chartOptions.grid"
+      [stroke]="chartOptions.stroke"
+      [title]="chartOptions.title"
+      [noData]="chartOptions.noData"
+    ></apx-chart>
+    <mat-spinner *ngIf="chartLoading" style="margin: 0 auto;top:50%" [diameter]="25"></mat-spinner>
+  </div>
+  <div id="chart" class="chart">
+    <apx-chart *ngIf="!chartLoading"
+    [series]="pieChartOptions.series"
+    [chart]="pieChartOptions.chart"
+    [labels]="pieChartOptions.labels"
+    [responsive]="pieChartOptions.responsive"
+    [title]="pieChartOptions.title"
+    [plotOptions]="pieChartOptions.plotOptions"
+    [legend]="pieChartOptions.apexLegend"
+    [noData]="chartOptions.noData"
+  ></apx-chart>
+  <mat-spinner *ngIf="chartLoading" style="margin: 0 auto;top:50%" [diameter]="25"></mat-spinner>
+  </div>
+  <div class="Padding-vertical--10 Text-color--dark Text-fontSize--15 Text-fontWeight--bold" style="clear: both;" align="center">
+    <span>Upcoming rental payments</span>
+  </div>
+  <div class="upcoming-payment-div">
+      <table mat-table [dataSource]="upcomingPayments" class="mat-elevation-z8">
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef> First name </th>
+          <td mat-cell *matCellDef="let element" width="25%"> {{element.firstName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef> Last name </th>
+          <td mat-cell *matCellDef="let element" width="25%"> {{element.lastName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element" width="25%"> {{element.email}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="nextPayment">
+          <th mat-header-cell *matHeaderCellDef> Next payment </th>
+          <td mat-cell *matCellDef="let element" width="25%"> {{element.nextPayment}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center;">
+              No upcoming payments.
+            </td>
+          </tr>
+      </table>
+  </div>
