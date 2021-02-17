@@ -14,7 +14,7 @@ export class LoginGuardService implements CanActivate {
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Promise<boolean> {
       let response = await this._loginService.isUserLoggedIn();
       if(response){
-        this._router.navigate([""]);
+        this._router.navigate(["dashboard"]);
         return false;
       }
       return true;

@@ -12,11 +12,11 @@ export class LoginService {
   constructor(private _httpClient:HttpClient) {}
 
   login(id:'fb'|'google'){
-    window.location.href=this._baseURL+'/api'+environment.oauth[id];
+    window.location.href=this._baseURL+environment.oauth[id];
   }
 
   isUserLoggedIn():Promise<boolean>{
-    return this._httpClient.get(`${this._baseURL}/api/user/session`,{observe: 'response'})
+    return this._httpClient.get(`${this._baseURL}/user/session`,{observe: 'response'})
     .pipe(
       map(data=>{
         return <LoggedInStatus>data.body;

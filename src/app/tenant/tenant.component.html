@@ -29,7 +29,7 @@
                             <div class="Padding-top--5">Unit #{{element.unitDTO.doorNumber}}, Floor Number {{element.unitDTO.floorNumber}}</div>
                             <div class="Padding-top--5">{{element.unitDTO.propertyDTO.propertyname}}</div>
                             <div class="Padding-top--5">{{element.unitDTO.propertyDTO.addressline_1}}</div>
-                            <div class="Padding-top--5">{{element.unitDTO.propertyDTO.addressline_2}}</div>
+                            <div class="Padding-top--5" *ngIf="element.unitDTO.propertyDTO.addressline_2">{{element.unitDTO.propertyDTO.addressline_2}}</div>
                             <div class="Padding-top--5 Padding-bottom--5">{{element.unitDTO.propertyDTO.postal}}, {{element.unitDTO.propertyDTO.city}}</div>
                         </div>
                     </div>

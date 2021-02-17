@@ -89,7 +89,7 @@ export class Utils{
         return {
             series: [],
             chart: {
-                width: "64%",
+                width: "480",
                 type: "donut"
             },
             labels: [],

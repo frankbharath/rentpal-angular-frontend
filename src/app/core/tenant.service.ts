@@ -18,7 +18,7 @@ export class TenantService {
   constructor(private httpClient:HttpClient) {}
 
   getTenants(parameters?:object):Observable<Tenant[]>{
-    return this.httpClient.get(`${this.baseURL}/api/tenants`, {params: {...parameters}, observe: 'response'})
+    return this.httpClient.get(`${this.baseURL}/tenants`, {params: {...parameters}, observe: 'response'})
     .pipe(
       map(data=>{
         if(data.headers.get('X-Total-Count')){
@@ -30,15 +30,15 @@ export class TenantService {
   }
 
   saveTenant(tenant:Tenant){
-    return this.httpClient.post<Tenant>(`${this.baseURL}/api/tenants`, {...tenant}).toPromise();
+    return this.httpClient.post<Tenant>(`${this.baseURL}/tenants`, {...tenant}).toPromise();
   }
 
   deleteTenants(id:number):Promise<Object>{
-    return this.httpClient.delete(`${this.baseURL}/api/tenants/${id}`, {}).toPromise();
+    return this.httpClient.delete(`${this.baseURL}/tenants/${id}`, {}).toPromise();
   }
 
   getTenantRentSummary():Promise<TenantSummary>{
-    return this.httpClient.get<TenantSummary>(`${this.baseURL}/api/tenants/summary/rent`).toPromise();
+    return this.httpClient.get<TenantSummary>(`${this.baseURL}/tenants/summary/rent`).toPromise();
   }
 
   get totalTenantCount(){

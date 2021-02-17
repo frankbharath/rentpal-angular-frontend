@@ -13,6 +13,6 @@ export class ProfileService {
   constructor(private _httpClient:HttpClient) {}
 
   getUserProfile():Promise<User>{
-    return this._httpClient.get<User>(`${this.baseURL}/api/user`).toPromise();
+    return this._httpClient.get<User>(`${this.baseURL}/user`).toPromise();
   }
 }

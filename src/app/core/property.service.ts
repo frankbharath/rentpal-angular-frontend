@@ -18,7 +18,7 @@ export class PropertyService {
   constructor(private httpClient:HttpClient) {}
 
   getProperties(parameters?:object):Observable<Property[]>{
-    return this.httpClient.get(`${this.baseURL}/api/properties`, {params: {...parameters}, observe: 'response'}).
+    return this.httpClient.get(`${this.baseURL}/properties`, {params: {...parameters}, observe: 'response'}).
     pipe(
         map(data=>{
         if(data.headers.get('X-Total-Count')){
@@ -34,23 +34,23 @@ export class PropertyService {
   }
 
   saveProperty(property:Property):Promise<Property>{
-    return this.httpClient.post<Property>(`${this.baseURL}/api/properties`, {...property}).toPromise();
+    return this.httpClient.post<Property>(`${this.baseURL}/properties`, {...property}).toPromise();
   }
 
   updateProperty(property:Property):Promise<Property>{
-    return this.httpClient.put<Property>(`${this.baseURL}/api/properties/${property.id}`, {...property}).toPromise();
+    return this.httpClient.put<Property>(`${this.baseURL}/properties/${property.id}`, {...property}).toPromise();
   }
 
   getProperty(id:number):Observable<Property>{
-    return this.httpClient.get<Property>(`${this.baseURL}/api/properties/${id}`);
+    return this.httpClient.get<Property>(`${this.baseURL}/properties/${id}`);
   }
 
   deleteProperties(ids:Array<number>):Promise<HttpResponse<Object>>{
-    return this.httpClient.post(`${this.baseURL}/api/properties/bulkdelete?propertyIds=${ids.join(',')}`, {}, { observe: 'response' }).toPromise();
+    return this.httpClient.post(`${this.baseURL}/properties/bulkdelete?propertyIds=${ids.join(',')}`, {}, { observe: 'response' }).toPromise();
   }
 
   deleteProperty(id:number):Promise<Object>{
-    return this.httpClient.delete(`${this.baseURL}/api/properties/${id}`, {}).toPromise();
+    return this.httpClient.delete(`${this.baseURL}/properties/${id}`, {}).toPromise();
   }
 }
 
