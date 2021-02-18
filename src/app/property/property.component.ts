@@ -1,13 +1,14 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { combineLatest, forkJoin, fromEvent, Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, take, tap} from 'rxjs/operators';
 import { Property } from '../share/models/property.model';
 import { PropertyDataSource } from '../core/property-data-source';
 import { PropertyService } from '../core/property.service';
 import { Utils } from '../share/utils';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-property',
@@ -22,7 +23,7 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
   private _dataSource!:PropertyDataSource;
   private _hideAddForm=false;
   private _property:Property | undefined;
-  private _searchQuery='';
+  private _searchQuery=new FormControl('');
   private _selection = new SelectionModel<Property>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -43,17 +44,18 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
       const obj=JSON.parse(propertyParams);
       this._pageIndex=obj.pageIndex;
       this._pageSize=obj.pageSize;
-      this._searchQuery=obj.searchQuery;
+      this._searchQuery=new FormControl(obj.searchQuery);
     }
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page.subscribe((data: any)=>{
+  
+    this.paginator.page.subscribe((data: PageEvent)=>{
       this.paginator.pageIndex = data.pageSize!==this.pageSize?0:data.pageIndex;
       this._pageSize=data.pageSize;
       this.loadProperties(false);
     });
-    fromEvent(this.searchInput.nativeElement, 'keyup')
+    this._searchQuery.valueChanges
     .pipe(
       map(() => this.searchInput.nativeElement.value),
       debounceTime(500),
@@ -62,7 +64,6 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
         this.paginator.pageIndex = 0;
         this.loadProperties(true);
     });
-
   }
   
   get pageSize(){

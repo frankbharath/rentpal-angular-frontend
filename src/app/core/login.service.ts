@@ -15,6 +15,12 @@ export class LoginService {
     window.location.href=this._baseURL+environment.oauth[id];
   }
 
+  radomLogin(){
+    this._httpClient.post(this._baseURL+"/login",{}).subscribe(()=>{
+        window.location.reload();
+    });
+  }
+
   isUserLoggedIn():Promise<boolean>{
     return this._httpClient.get(`${this._baseURL}/user/session`,{observe: 'response'})
     .pipe(
@@ -25,8 +31,15 @@ export class LoginService {
         return data.status;
       })).toPromise();
   }
+  
+  deleteUser(){
+    this._httpClient.delete(`${this._baseURL}/user`).subscribe(()=>{
+      window.location.reload();
+    });
+  }
 }
 
 interface LoggedInStatus{
   status:boolean
 }
+

@@ -17,4 +17,8 @@ export class LoginComponent implements OnInit {
     event.stopPropagation();
     this._loginService.login(id==='fb'?'fb':'google');
   }
+
+  radomLogin(){
+    this._loginService.radomLogin();
+  }
 }

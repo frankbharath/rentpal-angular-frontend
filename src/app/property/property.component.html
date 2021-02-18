@@ -6,7 +6,7 @@
         </div>
         <div class="search-property">
             <mat-form-field class="search-mat-field">
-                <input matInput placeholder="Search properties" #searchInput [value]="searchQuery">
+                <input matInput placeholder="Search properties" #searchInput [formControl]="searchQuery">
             </mat-form-field>
         </div>
         <div>

@@ -11,6 +11,7 @@ import { SettingsModule } from '../settings/settings.module';
 import { TenantModule } from '../tenant/tenant.module';
 //import { StopPropagationDirective } from './stop-propagation';
 import { ShareModule } from '../share/share.module';
+import { ProfileModule } from '../profile/profile.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ShareModule } from '../share/share.module';
     DashboardModule,
     PropertyModule,
     TenantModule,
+    ProfileModule,
     SettingsModule,
     FormsModule,
     MaterialModule

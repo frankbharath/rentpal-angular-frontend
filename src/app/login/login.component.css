@@ -37,6 +37,13 @@ mat-card{
   border-radius: 5px;
   width: 190px;
 }
+
+.random-bg{
+  border-color: #c4c2c2;
+  background-color: #c4c2c2;
+  border-radius: 5px;
+  width: 190px;
+}
 .td-icon{
   width: 20%;
   padding-left: 5px;

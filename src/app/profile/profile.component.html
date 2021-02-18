@@ -1,6 +1,7 @@
-<div>
+<div (click)="$event.stopPropagation()">
     <div class="Text-fontWeight--medium Text-fontSize--16 Padding-vertical--5">Profile Information</div>
     <div class="Padding-vertical--5"><span class="Text-fontWeight--medium">Email</span><p>{{user.email}}</p></div>
     <div class="Padding-vertical--5"><span class="Text-fontWeight--medium">Account created on</span><p>{{user.creationTime}}</p></div>
+    <button mat-raised-button color="warn" (click)="deleteUser()">Delete profile</button>
 </div>
 
