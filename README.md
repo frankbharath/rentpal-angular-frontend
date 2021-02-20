@@ -15,3 +15,9 @@ The frontend of the rentpal application is built using Angular 11, Typescript 4.
 Prerequisite - Node v14.15.1, Angular 11, Typescript 4.1.2
 - Production - ng build --prod 
 - Development - ng build
+
+## Screenshots 
+![Screenshot 2021-02-20 200030](https://user-images.githubusercontent.com/49817583/108605774-a38b7580-73b6-11eb-8720-76c5853e24ac.png)
+![Screenshot 2021-02-20 200117](https://user-images.githubusercontent.com/49817583/108605775-a4240c00-73b6-11eb-8ebb-3f2085b57856.png)
+![Screenshot 2021-02-20 200149](https://user-images.githubusercontent.com/49817583/108605776-a4240c00-73b6-11eb-9e46-488ef265a1be.png)
+![Screenshot 2021-02-20 200216](https://user-images.githubusercontent.com/49817583/108605778-a4bca280-73b6-11eb-8a79-25034c770a96.png)
