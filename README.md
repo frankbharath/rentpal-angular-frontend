@@ -12,6 +12,6 @@ The frontend of the rentpal application is built using Angular 11, Typescript 4.
 - Depedency Injection - Created singleton services and used DI to inject service class to component class. 
 
 ## Build
-Prerequisite - Node v14.15.1, Angular 11, Typescript 4.0.5
+Prerequisite - Node v14.15.1, Angular 11, Typescript 4.1.2
 - Production - ng build --prod 
 - Development - ng build
