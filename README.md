@@ -4,7 +4,7 @@ The frontend of the rentpal application is built using Angular 11, Typescript 4.
 - Inbuilt libraries - Angular provides lot of libraries e.g, HttpClient and it helps to avoid importing 3rd party libraries. The problem with 3rd party library is, it can be deprecated any time if there is no support or funding. 
 - Depedency injection - Angular helps to avoid creating services inside constructor, this decouples the components from the services. We can perform unit testing on the component by mocking the service class, also services are singleton and reduces memory consumption.
 
-## Concept learnt and used
+## Concept used
 - RxJS - All the asynchronous operation in Angular are observables where we can subscribe and listen for new values. The advantages of observables comes with operators, we can manipulate input stream using filter, map or even to have some common errors being caught using catchError(used in HttpClient in interceptor) before calling the subscribed method. There are other operators such as debounce(will not emit value based on given time) and switchMap(cancelling previous observable) that helps to avoid requesting API server frequently.  
 - Material - I have the developed the UI extensively using Material and helped me to focus on the business logic.
 - Components - Learnt component lifecycle, its hook and also to invoke the hook based on given scenerio eg., accessing the child component in ngAfterViewInit. It is also important for me learn component re-renderding and how it works. Learnt the differences between default and onPush startegy. If the strategy is onPush, creating immutable objects avoids re-rendering of child component, if the parent component sends an object to child component.
