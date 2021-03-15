@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { of } from 'rxjs';
 import { ProgressBarService } from './core/progress-bar.service';
 
 @Component({
@@ -6,6 +7,6 @@ import { ProgressBarService } from './core/progress-bar.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent{
   constructor(public progressBarService:ProgressBarService) {}
 }

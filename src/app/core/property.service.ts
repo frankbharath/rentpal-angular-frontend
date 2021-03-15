@@ -1,9 +1,9 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Property } from '../share/models/property.model';
-import { environment } from './../../environments/environment';
+import { APIService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +11,12 @@ import { environment } from './../../environments/environment';
 
 export class PropertyService {
 
-  private _totalPropertyCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private readonly _totalPropertyCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  baseURL=environment.baseURL;
-
-  constructor(private httpClient:HttpClient) {}
+  constructor(private readonly httpClient:HttpClient, private readonly _api:APIService) {}
 
   getProperties(parameters?:object):Observable<Property[]>{
-    return this.httpClient.get(`${this.baseURL}/properties`, {params: {...parameters}, observe: 'response'}).
+    return this.httpClient.get(this._api.resolve(this._api.endPoints.getProperties), {params: {...parameters}, observe: 'response'}).
     pipe(
         map(data=>{
         if(data.headers.get('X-Total-Count')){
@@ -34,27 +32,27 @@ export class PropertyService {
   }
 
   saveProperty(property:Property):Promise<Property>{
-    return this.httpClient.post<Property>(`${this.baseURL}/properties`, {...property}).toPromise();
+    return this.httpClient.post<Property>(this._api.resolve(this._api.endPoints.addProperty), {...property}).toPromise();
   }
 
   updateProperty(property:Property):Promise<Property>{
-    return this.httpClient.put<Property>(`${this.baseURL}/properties/${property.id}`, {...property}).toPromise();
+    return this.httpClient.put<Property>(this._api.resolve(this._api.endPoints.updateProperty, {id:property.id}), {...property}).toPromise();
   }
 
   getProperty(id:number):Observable<Property>{
-    return this.httpClient.get<Property>(`${this.baseURL}/properties/${id}`);
+    return this.httpClient.get<Property>(this._api.resolve(this._api.endPoints.getProperty, {id:id}));
   }
 
   deleteProperties(ids:Array<number>):Promise<HttpResponse<Object>>{
-    return this.httpClient.post(`${this.baseURL}/properties/bulkdelete?propertyIds=${ids.join(',')}`, {}, { observe: 'response' }).toPromise();
+    return this.httpClient.post(`${this._api.resolve(this._api.endPoints.deleteProperties)}?propertyIds=${ids.join(',')}`, {}, { observe: 'response' }).toPromise();
   }
 
   deleteProperty(id:number):Promise<Object>{
-    return this.httpClient.delete(`${this.baseURL}/properties/${id}`, {}).toPromise();
+    return this.httpClient.delete(this._api.resolve(this._api.endPoints.deleteProperty, {id:id}), {}).toPromise();
   }
 }
 
-export interface PopertyParams{
+export interface PropertyParams{
   countRequired?:boolean;
   pageIndex?:number;
   pageSize?:number;

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { Tenant } from '../share/models/tenant.model';
+import { APIService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,10 @@ export class TenantService {
 
   private _totalTenantCount: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  baseURL=environment.baseURL;
-
-  constructor(private httpClient:HttpClient) {}
+  constructor(private httpClient:HttpClient, private _api:APIService) {}
 
   getTenants(parameters?:object):Observable<Tenant[]>{
-    return this.httpClient.get(`${this.baseURL}/tenants`, {params: {...parameters}, observe: 'response'})
+    return this.httpClient.get(this._api.resolve(this._api.endPoints.tenant), {params: {...parameters}, observe: 'response'})
     .pipe(
       map(data=>{
         if(data.headers.get('X-Total-Count')){
@@ -30,15 +28,15 @@ export class TenantService {
   }
 
   saveTenant(tenant:Tenant){
-    return this.httpClient.post<Tenant>(`${this.baseURL}/tenants`, {...tenant}).toPromise();
+    return this.httpClient.post<Tenant>(this._api.resolve(this._api.endPoints.tenant), {...tenant}).toPromise();
   }
 
   deleteTenants(id:number):Promise<Object>{
-    return this.httpClient.delete(`${this.baseURL}/tenants/${id}`, {}).toPromise();
+    return this.httpClient.delete(this._api.resolve(this._api.endPoints.tenantDelete, {id:id}), {}).toPromise();
   }
 
   getTenantRentSummary():Promise<TenantSummary>{
-    return this.httpClient.get<TenantSummary>(`${this.baseURL}/tenants/summary/rent`).toPromise();
+    return this.httpClient.get<TenantSummary>(this._api.resolve(this._api.endPoints.tenantSummary)).toPromise();
   }
 
   get totalTenantCount(){

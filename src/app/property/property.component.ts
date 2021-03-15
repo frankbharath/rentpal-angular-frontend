@@ -1,12 +1,12 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, forkJoin, fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, take, tap} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import { Property } from '../share/models/property.model';
 import { PropertyDataSource } from '../core/property-data-source';
-import { PropertyService } from '../core/property.service';
+import { PropertyParams, PropertyService } from '../core/property.service';
 import { Utils } from '../share/utils';
 import { FormControl } from '@angular/forms';
 
@@ -17,62 +17,28 @@ import { FormControl } from '@angular/forms';
 })
 
 export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _pageSize=50;
-  private _pageIndex=0;
-  private _displayedColumns: string[] = ['select', 'propertyname', 'addressline_1', 'addressline_2', 'city', 'postal', 'creationtime', 'actions'];
+  private readonly _displayedColumns: string[] = ['select', 'propertyname', 'addressline_1', 'addressline_2', 'city', 'postal', 'creationtime', 'actions'];
   private _dataSource!:PropertyDataSource;
   private _hideAddForm=false;
   private _property:Property | undefined;
   private _searchQuery=new FormControl('');
   private _selection = new SelectionModel<Property>(true, []);
-
+  private _defaultFilterValues:PropertyParams = {
+    pageIndex:0,
+    pageSize:50,
+    searchQuery:'',
+    countRequired:false
+  }
+  private _filterSubject = new Subject<void>();
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('searchInput') searchInput!: ElementRef;
 
   constructor(
-    private _route:ActivatedRoute, 
-    private _propertyService:PropertyService, 
-    private _utils:Utils,
-    private _router: Router) {}
-  
-  ngOnInit(): void {
-    this._route.data.subscribe(data=>{
-      this._dataSource=new PropertyDataSource(this._propertyService, data.properties);
-    });
-    const propertyParams=sessionStorage.getItem("propertyParams");
-    if(propertyParams){
-      const obj=JSON.parse(propertyParams);
-      this._pageIndex=obj.pageIndex;
-      this._pageSize=obj.pageSize;
-      this._searchQuery=new FormControl(obj.searchQuery);
-    }
-  }
-
-  ngAfterViewInit(): void {
-  
-    this.paginator.page.subscribe((data: PageEvent)=>{
-      this.paginator.pageIndex = data.pageSize!==this.pageSize?0:data.pageIndex;
-      this._pageSize=data.pageSize;
-      this.loadProperties(false);
-    });
-    this._searchQuery.valueChanges
-    .pipe(
-      map(() => this.searchInput.nativeElement.value),
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe(()=>{
-        this.paginator.pageIndex = 0;
-        this.loadProperties(true);
-    });
-  }
-  
-  get pageSize(){
-    return this._pageSize;
-  }
-
-  get pageIndex(){
-    return this._pageIndex;
-  }
+    private readonly _route: ActivatedRoute, 
+    private readonly _propertyService: PropertyService, 
+    private readonly _utils: Utils,
+    private readonly _router: Router) {}
 
   get displayedColumns(){
     return this._displayedColumns;
@@ -98,8 +64,54 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._searchQuery;
   }
 
+  get defaultFilterValues(){
+    return this._defaultFilterValues;
+  }
+  
+  ngOnInit(): void {
+    this._route.data.subscribe(data=>{
+      this._dataSource=new PropertyDataSource(data.properties);
+    });
+    const propertyParams=sessionStorage.getItem("propertyParams");
+    if(propertyParams){
+      const obj=JSON.parse(propertyParams);
+      this._defaultFilterValues.pageIndex=obj.pageIndex;
+      this._defaultFilterValues.pageSize=obj.pageSize;
+      this._defaultFilterValues.searchQuery=obj.searchQuery;
+      this._searchQuery=new FormControl(obj.searchQuery); 
+    }
+    this._filterSubject.pipe(switchMap(()=>{
+      this.selection.clear();
+      this.saveState();
+      return this._propertyService.getProperties(this._defaultFilterValues);
+    })).
+    subscribe((properties:Property[])=>{
+      this.dataSource.loadProperties(properties);
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.paginator.page.subscribe((data: PageEvent)=>{
+      this.paginator.pageIndex = data.pageSize!==this._defaultFilterValues.pageSize?0:data.pageIndex;
+      this._defaultFilterValues.pageSize=data.pageSize;
+      this._filterSubject.next();
+    });
+    this._searchQuery.valueChanges
+    .pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+    ).subscribe(value=>{
+      this.paginator.pageIndex = 0;
+      this._defaultFilterValues.pageIndex = 0;
+      this._defaultFilterValues.searchQuery = value;
+      this._filterSubject.next();
+    });
+  }
+  
+  
   ngOnDestroy(): void {
     this.paginator.page.unsubscribe();
+    this._filterSubject.unsubscribe();
     this.saveState();
   }
 
@@ -154,7 +166,8 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
         try{
           await this._propertyService.deleteProperties(selectedIds);
           this._utils.showMessage("Selected properties deleted successfully.");
-          this.loadProperties(true);
+          this._defaultFilterValues.countRequired=true;
+          this._filterSubject.next();
         }catch(error){}
       }
     });
@@ -162,7 +175,7 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
 
   delete(event:MouseEvent, element:Property):void{
     event.stopPropagation();
-    const dialogRef = this._utils.confirmDialog("Confirm Delete", "Deleteing the property will remove its units and tenants? Are you sure you want to delete the property?");
+    const dialogRef = this._utils.confirmDialog("Confirm Delete", "Deleting the property will remove its units and tenants? Are you sure you want to delete the property?");
     dialogRef.afterClosed().subscribe(async dialogResult => {
       if(dialogResult){
         if(element.id===undefined){
@@ -170,16 +183,10 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         await this._propertyService.deleteProperty(element.id);
         this._utils.showMessage("Property deleted successfully.");
-        this.loadProperties(true);
+        this._defaultFilterValues.countRequired=true;
+        this._filterSubject.next();
       }
     });
-  }
-
-  loadProperties(countRequired:boolean=false){
-    this.selection.clear();
-    let params={"pageIndex":this.paginator.pageIndex, "pageSize":this.paginator.pageSize, "searchQuery":this.searchInput.nativeElement.value, "countRequired":countRequired};
-    this.saveState();
-    this.dataSource.loadProperties(params);
   }
 
   loadUnits(property:Property){
@@ -187,8 +194,7 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveState(){
-    const obj={"pageIndex":this.paginator.pageIndex, "pageSize":this.paginator.pageSize, "searchQuery":this.searchInput.nativeElement.value};
-    sessionStorage.setItem("propertyParams", JSON.stringify(obj));
+    sessionStorage.setItem("propertyParams", JSON.stringify(this._defaultFilterValues));
   }
 
   toggleAddForm(){

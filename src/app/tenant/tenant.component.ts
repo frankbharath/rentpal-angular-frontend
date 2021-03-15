@@ -22,10 +22,10 @@ import { Utils } from '../share/utils';
 })
 export class TenantComponent implements OnInit, AfterViewInit {
 
-  private _pageSize=50;
-  private _pageIndex=0;
-  private _displayedColumns= [
-    ['firstName', 'First name'], 
+  private _pageSize = 50;
+  private _pageIndex = 0;
+  private _displayedColumns = [
+    ['firstName', 'First name'],   
     ['lastName', 'Last name'], 
     ['email', 'Email'], 
     ['dob', 'Date of birth'], 

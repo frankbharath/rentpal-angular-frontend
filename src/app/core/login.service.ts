@@ -1,28 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { environment } from './../../environments/environment';
+import { APIService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private _baseURL=environment.baseURL;
 
-  constructor(private _httpClient:HttpClient) {}
+  constructor(private readonly _httpClient:HttpClient, private readonly _apiService:APIService) {}
 
   login(id:'fb'|'google'){
-    window.location.href=this._baseURL+environment.oauth[id];
+    if(id === 'fb'){
+      window.location.href=this._apiService.resolve(this._apiService.endPoints.facebookLogin);  
+    }else if(id === 'google'){
+      window.location.href=this._apiService.resolve(this._apiService.endPoints.googleLogin);
+    }
   }
 
   radomLogin(){
-    this._httpClient.post(this._baseURL+"/login",{}).subscribe(()=>{
+    this._httpClient.post(this._apiService.resolve(this._apiService.endPoints.randmonLogin),{}).subscribe(()=>{
         window.location.reload();
     });
   }
 
   isUserLoggedIn():Promise<boolean>{
-    return this._httpClient.get(`${this._baseURL}/user/session`,{observe: 'response'})
+    return this._httpClient.get(this._apiService.resolve(this._apiService.endPoints.isUserLoggedIn),{observe: 'response'})
     .pipe(
       map(data=>{
         return <LoggedInStatus>data.body;
@@ -33,7 +36,7 @@ export class LoginService {
   }
   
   deleteUser(){
-    this._httpClient.delete(`${this._baseURL}/user`).subscribe(()=>{
+    this._httpClient.delete(this._apiService.resolve(this._apiService.endPoints.deleteUser)).subscribe(()=>{
       window.location.reload();
     });
   }

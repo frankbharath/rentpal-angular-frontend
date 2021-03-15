@@ -29,7 +29,9 @@ export class ProfileComponent {
   deleteUser(){
     const dialogRef = this._utils.confirmDialog("Confirm Delete", "Deleting your profile is irreversible operation? Are you sure you want to delete?");
     dialogRef.afterClosed().subscribe(async dialogResult => {
-      this._loginService.deleteUser();
+      if(dialogResult){
+        this._loginService.deleteUser();
+      }
     });
   }
 }

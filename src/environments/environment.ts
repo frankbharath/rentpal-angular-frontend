@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  baseURL:"http://localhost:8082",
-  oauth:{
-    fb:"/oauth2/authorization/facebook",
-    google:"/oauth2/authorization/google"
+  baseURL: 'http://localhost:8082',
+  oauth: {
+    fb: '/oauth2/authorization/facebook',
+    google: '/oauth2/authorization/google'
   }
 };
 

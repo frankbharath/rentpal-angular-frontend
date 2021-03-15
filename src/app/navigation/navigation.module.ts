@@ -7,9 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../share/material/material.module';
 import { DashboardModule } from '../dashboard/dashboard.module';
 import { PropertyModule } from '../property/property.module';
-import { SettingsModule } from '../settings/settings.module';
 import { TenantModule } from '../tenant/tenant.module';
-//import { StopPropagationDirective } from './stop-propagation';
 import { ShareModule } from '../share/share.module';
 import { ProfileModule } from '../profile/profile.module';
 
@@ -24,7 +22,6 @@ import { ProfileModule } from '../profile/profile.module';
     PropertyModule,
     TenantModule,
     ProfileModule,
-    SettingsModule,
     FormsModule,
     MaterialModule
   ],

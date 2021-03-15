@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardResolverService } from './core/dashboard-resolver.service';
 import { LoginGuardService as LoginGuard} from './core/login-guard.service';
 import { ProfileResolverService } from './core/profile-resolver.service';
 import { PropertyResolverService } from './core/property-resolver.service';
@@ -13,7 +12,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { PropertyFormComponent } from './property/property-form/property-form.component';
 import { PropertyComponent } from './property/property.component';
 import { UnitComponent } from './property/unit/unit.component';
-import { SettingsComponent } from './settings/settings.component';
 import { TenantComponent } from './tenant/tenant.component';
 
 const routes: Routes = [
@@ -61,10 +59,6 @@ const routes: Routes = [
         resolve:{
           tenants:TenantResolverService
         }
-      },
-      {
-        path:"settings", 
-        component:SettingsComponent
       },
       {
         path:"profile",

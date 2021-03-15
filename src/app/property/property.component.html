@@ -10,7 +10,7 @@
             </mat-form-field>
         </div>
         <div>
-            <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async" ></mat-paginator>
+            <mat-paginator class="search-mat-field" [pageSize]="defaultFilterValues.pageSize" [pageIndex]="defaultFilterValues.pageIndex" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async" ></mat-paginator>
         </div>
     </div>
     <div class="scrollable-table-wrapper">
