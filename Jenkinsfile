@@ -6,6 +6,7 @@ pipeline{
             steps {
                 sh 'node --version'
                 sh 'npm --version'
+                sh 'tsc --version'
             }
         }
     }
