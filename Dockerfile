@@ -5,7 +5,6 @@ WORKDIR /usr/src/app
 RUN npm install -g @angular/cli@11.0.3
 
 COPY ./package.json .
-RUN npm 
+RUN npm install
 RUN echo tsc --version
 COPY . .
-
