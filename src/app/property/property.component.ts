@@ -90,7 +90,6 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe((data: PageEvent)=>{
-      console.log('check');
       this.paginator.pageIndex = data.pageSize!==this._defaultFilterValues.pageSize?0:data.pageIndex;
       this._defaultFilterValues.pageSize=data.pageSize;
       this._filterSubject.next();

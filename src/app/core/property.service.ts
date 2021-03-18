@@ -47,8 +47,8 @@ export class PropertyService {
     return this.httpClient.post(`${this._api.resolve(this._api.endPoints.deleteProperties)}?propertyIds=${ids.join(',')}`, {}, { observe: 'response' }).toPromise();
   }
 
-  deleteProperty(id:number):Promise<Object>{
-    return this.httpClient.delete(this._api.resolve(this._api.endPoints.deleteProperty, {id:id}), {}).toPromise();
+  deleteProperty(id:number):Promise<HttpResponse<Object>>{
+    return this.httpClient.delete(this._api.resolve(this._api.endPoints.deleteProperty, {id:id}), { observe: 'response' }).toPromise();
   }
 }
 

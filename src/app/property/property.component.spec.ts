@@ -19,7 +19,7 @@ import { HttpResponse } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 
 
-fdescribe('PropertyComponent', () => {
+describe('PropertyComponent', () => {
   let component: PropertyComponent;
   let fixture: ComponentFixture<PropertyComponent>;
   let de: DebugElement;
@@ -200,6 +200,17 @@ fdescribe('PropertyComponent', () => {
     expect(propertyDataCell[6].innerText).toBe('Aug 06, 2021');
   }));
 
+  it('should select all properties and enable delete button', async()=>{
+    const randomProperties=generateRandomProperties(5);
+    component.dataSource.loadProperties(randomProperties);
+    fixture.detectChanges();
+
+    const checkbox = await loader.getHarness(MatCheckboxHarness);
+    await checkbox.check();
+   
+    expect(de.nativeElement.querySelectorAll('button')[1].disabled).toBeFalsy();   
+  });
+
   it('should select all properties, call bulk delete method and refresh properties table', fakeAsync(async ()=>{
     const randomProperties=generateRandomProperties(5);
     component.dataSource.loadProperties(randomProperties);
@@ -221,7 +232,7 @@ fdescribe('PropertyComponent', () => {
     const randomProperties=generateRandomProperties(1);
     component.dataSource.loadProperties(randomProperties);
     fixture.detectChanges();
-    propertySpy.deleteProperty.and.returnValue(Promise.resolve(new Object()));
+    propertySpy.deleteProperty.and.returnValue(Promise.resolve(new HttpResponse<Object>()));
     propertySpy.getProperties.and.returnValue(of(randomProperties));
     
 
