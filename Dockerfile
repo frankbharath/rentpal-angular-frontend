@@ -6,5 +6,4 @@ RUN npm install -g @angular/cli@11.0.3
 
 COPY ./package.json .
 RUN npm install
-RUN echo tsc --version
 COPY . .

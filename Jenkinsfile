@@ -5,7 +5,7 @@ pipeline{
             agent { dockerfile true }
             steps {
                 sh 'tsc --version'
-                //sh 'ng build --prod'
+                sh 'ng build --prod'
             }
         }
     }
