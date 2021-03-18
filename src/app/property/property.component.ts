@@ -75,9 +75,7 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
     const propertyParams=sessionStorage.getItem("propertyParams");
     if(propertyParams){
       const obj=JSON.parse(propertyParams);
-      this._defaultFilterValues.pageIndex=obj.pageIndex;
-      this._defaultFilterValues.pageSize=obj.pageSize;
-      this._defaultFilterValues.searchQuery=obj.searchQuery;
+      this._defaultFilterValues = {pageIndex:obj.pageIndex, pageSize:obj.pageSize, searchQuery:obj.searchQuery};
       this._searchQuery=new FormControl(obj.searchQuery); 
     }
     this._filterSubject.pipe(switchMap(()=>{
@@ -92,6 +90,7 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe((data: PageEvent)=>{
+      console.log('check');
       this.paginator.pageIndex = data.pageSize!==this._defaultFilterValues.pageSize?0:data.pageIndex;
       this._defaultFilterValues.pageSize=data.pageSize;
       this._filterSubject.next();
@@ -102,8 +101,7 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
       distinctUntilChanged(),
     ).subscribe(value=>{
       this.paginator.pageIndex = 0;
-      this._defaultFilterValues.pageIndex = 0;
-      this._defaultFilterValues.searchQuery = value;
+      this._defaultFilterValues = {...this._defaultFilterValues, pageIndex:this.paginator.pageIndex, searchQuery:value, countRequired:true}
       this._filterSubject.next();
     });
   }
@@ -159,16 +157,16 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
       if(dialogResult){
         let selectedIds=new Array<number>();
         this.dataSource.data.forEach(row=>{
-          if(this.selection.isSelected(row) && row.id){
+          if(this.selection.isSelected(row) && row.id!=undefined){
             selectedIds.push(row.id);
           }
         });
-        try{
+        //try{
           await this._propertyService.deleteProperties(selectedIds);
           this._utils.showMessage("Selected properties deleted successfully.");
           this._defaultFilterValues.countRequired=true;
           this._filterSubject.next();
-        }catch(error){}
+        //}catch(error){}
       }
     });
   }
@@ -178,13 +176,16 @@ export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialogRef = this._utils.confirmDialog("Confirm Delete", "Deleting the property will remove its units and tenants? Are you sure you want to delete the property?");
     dialogRef.afterClosed().subscribe(async dialogResult => {
       if(dialogResult){
+       
         if(element.id===undefined){
           return;
         }
+        //try{
         await this._propertyService.deleteProperty(element.id);
         this._utils.showMessage("Property deleted successfully.");
         this._defaultFilterValues.countRequired=true;
         this._filterSubject.next();
+      //}catch(error){}
       }
     });
   }
