@@ -4,8 +4,8 @@ pipeline{
         stage('Front-end') {
             agent { dockerfile true }
             steps {
-                sh 'ls'
-                //sh 'ng build --prod'
+                //sh 'ls'
+                sh 'ng build'
             }
         }
     }
