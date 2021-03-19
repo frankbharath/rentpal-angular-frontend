@@ -5,7 +5,7 @@ pipeline{
             agent { dockerfile true }
             steps {
                 //sh 'ls'
-                sh 'ng build'
+                sh 'npm run build --prod'
             }
         }
     }
