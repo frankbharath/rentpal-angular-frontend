@@ -18,7 +18,7 @@ import { UnitFormComponent } from './unit-form/unit-form.component';
 
 export class UnitComponent implements OnInit, AfterViewInit {
 
-  private _displayedColumns: string[] = ['select', 'doorNumber', 'floorNumber', 'bedrooms', 'bathrooms', 'area', 'rent', 'cautionDeposit', 'furnished', 'actions'];
+  private _displayedColumns: string[] = ['doorNumber', 'floorNumber', 'bedrooms', 'bathrooms', 'area', 'rent', 'cautionDeposit', 'furnished', 'actions'];
   private _pageSize=50;
   private _selection = new SelectionModel<Unit>(true, []);
   @ViewChild(MatPaginator) private _paginator!: MatPaginator;

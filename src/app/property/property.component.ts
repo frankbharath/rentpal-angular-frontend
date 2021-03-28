@@ -17,7 +17,7 @@ import { FormControl } from '@angular/forms';
 })
 
 export class PropertyComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly _displayedColumns: string[] = ['select', 'propertyname', 'addressline_1', 'addressline_2', 'city', 'postal', 'creationtime', 'actions'];
+  private readonly _displayedColumns: string[] = ['propertyname', 'addressline_1', 'addressline_2', 'city', 'postal', 'creationtime', 'actions'];
   private _dataSource!:PropertyDataSource;
   private _hideAddForm=false;
   private _property:Property | undefined;

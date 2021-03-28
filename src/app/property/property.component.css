@@ -1,5 +1,39 @@
-
-  .search-property{
-    position: absolute;
-    left: 43%;
+.search-property{
+    text-align: center;
+}
+.mobile-label {
+  display: none;
+}
+td{
+  background-color: white;
+}
+@media(max-width: 1400px) {
+  .mobile-label {
+    width: 105px;
+    display: inline-block;
+    font-weight: bold;
   }
+
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-row { 
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+  .hideOnMobile{
+    display: none;
+  }
+  mat-row::after{
+    display: none;
+  }
+  .search-property{
+    text-align: left;
+  }
+  .mat-cell:first-of-type {
+    padding-left: 0px;
+  }
+}
+

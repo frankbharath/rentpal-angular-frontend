@@ -96,6 +96,7 @@ mat-progress-bar .mat-progress-bar-buffer {
   /* width */
 ::-webkit-scrollbar {
     width: 6px;
+    position: absolute;
   }
   
   /* Track */
@@ -155,7 +156,7 @@ thead tr th {
   }
 
 .scrollable-table-wrapper{
-    height: 71vh;
+    height: 100%;
     overflow: auto;
 }
 
@@ -187,3 +188,62 @@ thead tr th {
 .apexcharts-canvas{
     margin:0 auto !important;
 }
+
+.mobile-label {
+    display: none;
+  }
+  .mat-row::after{
+      display: none;
+  }
+.main-div{
+    margin: 20px 20px;
+    height: calc(100% - 104px);
+    overflow: auto;
+    overflow-x: hidden;
+}
+.hide-table-footer{
+    display:none;
+  } 
+@media(max-width: 500px) {
+    .form{
+    width: 100%;
+    }
+}
+@media(max-width: 1400px) {
+    .mobile-label {
+      width: 105px;
+      display: inline-block;
+      font-weight: bold;
+    }
+  
+    .mat-header-row {
+      display: none;
+    }
+  
+    .mat-row { 
+      flex-direction: column;
+      align-items: start;
+      padding: 8px 24px;
+    }
+    .hideOnMobile{
+      display: none;
+    }
+    mat-row::after{
+      display: none;
+    }
+    .search-property{
+      text-align: left;
+    }
+    .mat-cell:first-of-type {
+      padding-left: 0px;
+    }
+    .main-div{
+        margin: 20px 5px;
+        height: calc(100% - 96px);
+        overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+        width: 2px;
+      }
+  }
+ 

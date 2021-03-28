@@ -44,7 +44,8 @@ export class Utils{
               }
             ],
             chart: {
-              height: 300,
+              height: (220/568)*window.innerHeight,
+              width: (300/320)*window.innerWidth,
               type: "line",
               zoom: {
                 enabled: false
@@ -63,7 +64,7 @@ export class Utils{
               curve: "straight"
             },
             title: {
-              text: "Rent received in last 12 months",
+              //text: "Rent received in last 12 months",
               align: "center",
               style:{
                 fontFamily:'Roboto, "Helvetica Neue", sans-serif'
@@ -89,16 +90,17 @@ export class Utils{
         return {
             series: [],
             chart: {
-                width: "480",
+              height: (300/568)*window.innerHeight,
+              width: (300/320)*window.innerWidth,
                 type: "donut"
             },
             labels: [],
             responsive: [
                 {
-                breakpoint: 480,
+                breakpoint: (350/320)*window.innerWidth,
                 options: {
                     chart: {
-                        width: 200
+                      width: (300/320)*window.innerWidth
                     },
                     legend: {
                     position: "bottom"
@@ -107,10 +109,11 @@ export class Utils{
                 }
             ],
             title: {
-              text: "Top revenue generated properties in last 12 months",
+              //text: "Top revenue generated properties in last 12 months",
               align: "center",
               style:{
-                fontFamily:'Roboto, "Helvetica Neue", sans-serif'
+                fontFamily:'Roboto, "Helvetica Neue", sans-serif',
+                fontSize:'13px'
               }
             },
             plotOptions:{

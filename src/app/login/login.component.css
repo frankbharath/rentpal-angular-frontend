@@ -1,12 +1,46 @@
-mat-card-content {
+/*mat-card-content {
   margin-top: 20px;
   margin-bottom: 20px !important;
+}*/
+.login-wrapper{
+  background: #f8f8f8;
+  height: calc(100% - 64px);
+}
+@media(max-width: 500px) {
+  .login-wrapper{
+    height: calc(100% - 56px);
+  }
+}
+.div-login{
+  margin-bottom: 25px;
+}
+.login-txt{
+  color: #3f51b5;
+  font-size: 17px;
+  font-weight: 500;
+}
+.btn-separator {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  line-height: .1em;
+  font-weight: 300;
+}
+.btn-separator span{
+  padding: 0 10px;
+  background: #fff;
+  color: #606060;
 }
 mat-card{
-    width: 30%;
+    width: 400px;
     margin: 0 auto;
     top: 20%;
-    background: #f8f8f8;
+    /*background: #f8f8f8;*/
+}
+@media(max-width: 500px) {
+  mat-card{
+    width: 90%;
+  }
 }
 .login-div{
   position: absolute;
@@ -19,11 +53,9 @@ mat-card{
   display: block;
 }
 .login-button{
-  border: none;
-  padding: 10px;
-  border-radius: 3px;
+  background-color: white;
+  border: 0px;
   cursor: pointer;
-  width: 190px;
 }
 .fb-bg{
   border-color: #1877F2;
@@ -49,7 +81,7 @@ mat-card{
   padding-left: 5px;
 }
 .icon-size{
-  height: 20px;
+  height: 35px;
 }
 .basic-drop-shadow {
   box-shadow: 0 0 10px;

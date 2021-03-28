@@ -1,14 +1,49 @@
 <div (click)="$event.stopPropagation()">
     <div>
-        <div class="action-buttons">
-            <button mat-raised-button color="primary" (click)="showTenantForm()">Add tenant</button>
-        </div>
-        <div>
-            <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async"></mat-paginator>
-        </div>
+        <button mat-raised-button color="primary" (click)="showTenantForm()"><mat-icon>add</mat-icon></button>
     </div>
     <div class="scrollable-table-wrapper">
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+            <ng-container matColumnDef="{{column[0]}}" *ngFor="let column of displayedColumns">
+                <mat-header-cell *matHeaderCellDef width="12%"> {{column[1]}} </mat-header-cell>
+                <mat-cell *matCellDef="let element" [matTooltip]="element[column[0]].length>20?element[column[0]]:''"> <span class="mobile-label">{{column[1]}}:</span> {{element[column[0]] | truncate:20 }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef><p>Action</p></mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" (click)="delete($event, element)" color="warn">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="expandedDetail">
+                <mat-cell *matCellDef="let element" [attr.colspan]="headerColumns.length">
+                    <div class="table-moreinfo" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div>
+                            <div><b>Rented Property </b></div>
+                            <div class="Padding-top--5">Unit #{{element.unitDTO.doorNumber}}, Floor Number {{element.unitDTO.floorNumber}}</div>
+                            <div class="Padding-top--5">{{element.unitDTO.propertyDTO.propertyname}}</div>
+                            <div class="Padding-top--5">{{element.unitDTO.propertyDTO.addressline_1}}</div>
+                            <div class="Padding-top--5" *ngIf="element.unitDTO.propertyDTO.addressline_2">{{element.unitDTO.propertyDTO.addressline_2}}</div>
+                            <div class="Padding-top--5 Padding-bottom--5">{{element.unitDTO.propertyDTO.postal}}, {{element.unitDTO.propertyDTO.city}}</div>
+                        </div>
+                    </div>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+                No tenants found.
+                </mat-footer-cell>
+              </ng-container>
+            <mat-header-row *matHeaderRowDef="headerColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: headerColumns;" 
+                class="element-row"
+                [class.expanded-row]="expandedElement === row"
+                (click)="expandedElement = expandedElement === row ? null : row" matTooltip="Click to see more information" [ngClass]="{'hide-bottom-border':(expandedElement === row)}"></mat-row>
+            <mat-row mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row" (click)="expandedElement = expandedElement === row ? null : row" [ngClass]="{'hide-more-info':(expandedElement !== row)}"></mat-row>
+            <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide-table-footer':(dataSource && dataSource.data.length > 0)}"></mat-footer-row>
+        </mat-table>
+        <!--table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
             <ng-container matColumnDef="{{column[0]}}" *ngFor="let column of displayedColumns">
                 <th mat-header-cell *matHeaderCellDef width="12%"> {{column[1]}} </th>
                 <td mat-cell *matCellDef="let element" [matTooltip]="element[column[0]].length>20?element[column[0]]:''"> {{element[column[0]] | truncate:20 }} </td>
@@ -46,7 +81,8 @@
                   No tenants found.
                 </td>
               </tr>
-        </table> 
+        </table--> 
     </div>
+    <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[25, 50, 100]" [length]="totalProperties() | async"></mat-paginator>
 </div>
 <app-tenant-form *ngIf="hideAddForm" (close)="toggleAddForm()" (updateAndClose)="updateAndClose($event)"></app-tenant-form>

@@ -1,59 +1,26 @@
+<mat-toolbar color="primary"></mat-toolbar>
+<div class='login-wrapper'>
+    <div align="center" style="top:17%;position:relative"><img src="../../assets/img/rentpal.svg" height="25px"/></div>
 <mat-card>
-    <mat-card-title style="margin-top: 12px;"><div align="center"><img src="../../assets/img/rentpal.svg" height="40px"/></div></mat-card-title>
     <mat-card-content>
-        <div align="center">
-            <table class="fb-bg">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div align="center" class="Text-fontSize--14 Text-fontWeight--bold Text-color--white login-button" (click)="login($event, 'fb')">
-                                <div style="width: 160px;">
-                                    <div style="float: left;"><img src="assets/img/fb.svg" class="icon-size"/></div>
-                                    <div style="padding-top: 2px;">Login with Facebook</div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> 
-        <br/>
-        <div align="center">
-            <table class="google-bg">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div align="center" class="Text-fontSize--14 Text-fontWeight--bold Text-color--white login-button" (click)="login($event, 'google')">
-                                <div style="width: 160px;">
-                                    <div style="float: left;"><img src="assets/img/google.svg"  height="30px"/></div>
-                                    <div style="padding-top: 4px;padding-left: 32px;position: absolute;">Login with Google</div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> 
-        <br/>
-        <div align="center">
-            <table class="random-bg">
-                <tbody>
-                    <tr>
-                        <td>
-                            <div align="center" class="Text-fontSize--14 Text-fontWeight--bold login-button" (click)="radomLogin()">
-                                <div style="width: 160px;">
-                                    <div>Login as Random user</div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div align="center" class="div-login"><span class='login-txt'>Log in with</span></div>
+        <div align="center" class="div-login">
+            <button (click)="login($event, 'fb')" class="login-button"><img src="assets/img/fb.svg" class="icon-size"/></button>
+            <button (click)="login($event, 'google')" class="login-button"><img src="assets/img/google.svg"  class="icon-size"/></button>
         </div>
-        <br/>
-        <div class="Text-color--red">
-            <span>Note: </span>
-            <span>If you are signing in for the first time, I will populate default information to provide a overall feel for the application.</span>
+        <div align="center" class="div-login">
+            <p class="btn-separator">
+                <span>or</span>
+            </p>
+        </div>
+        <div align="center" class="div-login">
+            <button mat-raised-button color="primary" (click)="radomLogin()" style="cursor: pointer;">Random user</button>
         </div>
     </mat-card-content>
+    <div class="Text-color--darkgrey Text-fontSize--13 Text-fontWeight--medium">
+        <span>Note: </span>
+        <span>If you are signing in for the first time, I will populate default information to provide a overall feel for the application.</span>
+    </div>
 </mat-card>
+
+</div>

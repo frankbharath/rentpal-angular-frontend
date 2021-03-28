@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DashbordResolverService } from './core/dashbord-resolver.service';
 import { LoginGuardService as LoginGuard} from './core/login-guard.service';
 import { ProfileResolverService } from './core/profile-resolver.service';
 import { PropertyResolverService } from './core/property-resolver.service';
@@ -24,7 +25,10 @@ const routes: Routes = [
         pathMatch:"full"},
       {
         path:"dashboard", 
-        component:DashboardComponent
+        component:DashboardComponent,
+        resolve:{
+          tenantSummary:DashbordResolverService
+        }
       },
       {
         path:"properties", 

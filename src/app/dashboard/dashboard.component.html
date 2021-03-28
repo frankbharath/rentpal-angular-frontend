@@ -1,3 +1,7 @@
+<div style="height: 100%;">
+  <div class="Padding-bottom--5  Text-color--darkgrey Text-fontSize--14 Text-fontWeight--medium" style="clear: both;" align="center">
+    <span>Rent received in last 12 months</span>
+  </div>
 <div id="chart" class="chart">
     <apx-chart *ngIf="!chartLoading"
       [series]="chartOptions.series"
@@ -10,6 +14,9 @@
       [noData]="chartOptions.noData"
     ></apx-chart>
     <mat-spinner *ngIf="chartLoading" style="margin: 0 auto;top:50%" [diameter]="25"></mat-spinner>
+  </div>
+  <div class="Padding-bottom--5 Padding-top--5 Text-color--darkgrey Text-fontSize--14 Text-fontWeight--medium" style="clear: both;" align="center">
+    <span>Top revenue generated properties in last 12 months</span>
   </div>
   <div id="chart" class="chart">
     <apx-chart *ngIf="!chartLoading"
@@ -24,11 +31,31 @@
   ></apx-chart>
   <mat-spinner *ngIf="chartLoading" style="margin: 0 auto;top:50%" [diameter]="25"></mat-spinner>
   </div>
-  <div class="Padding-vertical--10 Text-color--dark Text-fontSize--15 Text-fontWeight--bold" style="clear: both;" align="center">
+  <div class="Padding-bottom--5 Padding-top--5 Text-color--darkgrey Text-fontSize--14 Text-fontWeight--medium" style="clear: both;" align="center">
     <span>Upcoming rental payments</span>
   </div>
   <div class="upcoming-payment-div">
-      <table mat-table [dataSource]="upcomingPayments" class="mat-elevation-z8">
+    <mat-table [dataSource]="upcomingPayments" class="mat-elevation-z8">
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef>First name</mat-header-cell>
+        <mat-cell *matCellDef="let element" width="25%"><span class="mobile-label">First name:</span> {{element.firstName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef>Last name</mat-header-cell>
+        <mat-cell *matCellDef="let element" width="25%"><span class="mobile-label">Last name:</span> {{element.lastName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element" width="25%"><span class="mobile-label">Email:</span> {{element.email}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="nextPayment">
+        <mat-header-cell *matHeaderCellDef> Next payment </mat-header-cell>
+        <mat-cell *matCellDef="let element" width="25%"><span class="mobile-label">Next payment:</span> {{element.nextPayment}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+      <!--table mat-table [dataSource]="upcomingPayments" class="mat-elevation-z8">
         <ng-container matColumnDef="firstName">
           <th mat-header-cell *matHeaderCellDef> First name </th>
           <td mat-cell *matCellDef="let element" width="25%"> {{element.firstName}} </td>
@@ -56,5 +83,6 @@
               No upcoming payments.
             </td>
           </tr>
-      </table>
+      </table-->
   </div>
+</div>

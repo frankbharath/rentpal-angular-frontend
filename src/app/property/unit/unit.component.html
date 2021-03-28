@@ -1,13 +1,15 @@
 <div (click)="$event.stopPropagation()">
-    <div class="action-buttons">
-        <button mat-raised-button color="primary" (click)="showUnit()">Add unit</button>
+    <div style="margin-bottom: 10px;">
+        <button mat-raised-button color="primary" (click)="showUnit()" style="margin-right: 10px;"><mat-icon>add</mat-icon></button>
+        <button mat-raised-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+        
+        <!--button mat-raised-button color="primary" (click)="showUnit()">Add unit</button>
         <button mat-raised-button color="warn" (click)="bulkDelete()" [disabled]="disableDeleteButton()">Delete</button>
-        <button mat-raised-button (click)="goBack()">Go back</button>
+        <button mat-raised-button (click)="goBack()">Go back</button-->
     </div>
-    <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageSizeOptions]="[25, 50, 100]" [length]="totalUnits() | async" ></mat-paginator>
     <div class="scrollable-table-wrapper">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="select">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <!--ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef width="5%">
                 <mat-checkbox (change)="$event ? masterToggle() : null"
                                 [checked]="selection.hasValue() && isAllSelected()"
@@ -22,67 +24,68 @@
                                 [aria-label]="checkboxLabel(row)">
                 </mat-checkbox>
                 </td>
-            </ng-container>
+            </ng-container-->
 
             <ng-container matColumnDef="doorNumber">
-                <th mat-header-cell *matHeaderCellDef width="10%">Door number</th>
-                <td mat-cell *matCellDef="let element"> {{element.doorNumber}} </td>
+                <mat-header-cell *matHeaderCellDef width="10%">Door number</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Door number:</span> {{element.doorNumber}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="floorNumber">
-                <th mat-header-cell *matHeaderCellDef width="10%">Floor number</th>
-                <td mat-cell *matCellDef="let element"> {{element.floorNumber}} </td>
+                <mat-header-cell *matHeaderCellDef width="10%">Floor number</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Floor number:</span> {{element.floorNumber}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="bedrooms">
-                <th mat-header-cell *matHeaderCellDef width="10%">Bed Rooms</th>
-                <td mat-cell *matCellDef="let element"> {{element.bedrooms}} </td>
+                <mat-header-cell *matHeaderCellDef width="10%">Bed Rooms</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Bed Rooms:</span> {{element.bedrooms}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="bathrooms">
-                <th mat-header-cell *matHeaderCellDef width="10%">Bath Rooms</th>
-                <td mat-cell *matCellDef="let element"> {{element.bathrooms}} </td>
+                <mat-header-cell *matHeaderCellDef width="10%">Bath Rooms</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Bath Rooms:</span> {{element.bathrooms}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="area">
-                <th mat-header-cell *matHeaderCellDef width="10%">Area</th>
-                <td mat-cell *matCellDef="let element"><p>{{element.area}} m<sup>2</sup></p></td>
+                <mat-header-cell *matHeaderCellDef width="10%">Area</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Area:</span> <p>{{element.area}} m<sup>2</sup></p></mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="rent">
-                <th mat-header-cell *matHeaderCellDef width="10%">Rent</th>
-                <td mat-cell *matCellDef="let element"> {{element.rent}} &euro;</td>
+                <mat-header-cell *matHeaderCellDef width="10%">Rent</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Rent:</span> {{element.rent}} &euro;</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="cautionDeposit">
-                <th mat-header-cell *matHeaderCellDef width="10%">Caution Deposit</th>
-                <td mat-cell *matCellDef="let element"> {{element.cautionDeposit}} &euro;</td>
+                <mat-header-cell *matHeaderCellDef width="10%">Caution Deposit</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Caution Deposit:</span> {{element.cautionDeposit}} &euro;</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="furnished">
-                <th mat-header-cell *matHeaderCellDef width="10%">Furnished</th>
-                <td mat-cell *matCellDef="let element"> {{element.furnished?'Yes':'No'}} </td>
+                <mat-header-cell *matHeaderCellDef width="10%">Furnished</mat-header-cell>
+                <mat-cell *matCellDef="let element"><span class="mobile-label">Furnished:</span> {{element.furnished?'Yes':'No'}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef width="10%">Actions</th>
-                <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                <mat-header-cell *matHeaderCellDef width="10%">Actions</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
                     <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary" (click)="showUnit(element)">
                         <mat-icon aria-label="Edit">edit</mat-icon>
                     </button>
                     <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn" (click)="deleteUnit($event, element)">
                         <mat-icon aria-label="Delete">delete</mat-icon>
                     </button>
-                </td>
+                </mat-cell>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
-            <tr class="mat-row" *matNoDataRow>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+            <!--tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center;">
                   No units found for given property.
                 </td>
-              </tr>
-        </table>
+              </tr-->
+        </mat-table>
+        <mat-paginator class="search-mat-field" [pageSize]="pageSize" [pageSizeOptions]="[25, 50, 100]" [length]="totalUnits() | async" ></mat-paginator>
     </div>
 </div>
 <app-unit-form *ngIf="hideAddForm" (closeForm)="toggleAddForm()" (updateAndCloseForm)="updateAndCloseForm($event)" [propertyId]="propertyId" [unit]="unit"></app-unit-form>

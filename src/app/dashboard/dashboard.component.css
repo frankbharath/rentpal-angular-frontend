@@ -1,12 +1,16 @@
 .chart{
-    max-width: 50%;
-    width: 48%;
-    float: left;
+    width: 100%;
     border-style: groove;
     border-width: 2px;
     border-radius: 4px;
-    height: 40vh;
-    margin-right: 20px;
+   /* margin-top: 20px;*/
+}
+@media(max-width: 1400px) {
+    .chart{
+        max-width: 100%;
+        width: 99%;
+        /*margin-top: 20px;*/
+    }
 }
 .apexcharts-canvas{
     margin:0 auto !important;
