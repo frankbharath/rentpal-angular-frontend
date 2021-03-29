@@ -5,13 +5,14 @@ import { MaterialModule } from './material/material.module';
 import { OverlayComponent } from './overlay/overlay.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { TrimDirective } from './directives/trim.directive';
+import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 
 @NgModule({
   declarations: [
     ConfirmDialogComponent, 
     OverlayComponent, 
     TruncatePipe, 
-    TrimDirective
+    TrimDirective, InfoDialogComponent
   ],
   imports: [MaterialModule],
   exports: [ 

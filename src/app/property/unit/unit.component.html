@@ -77,8 +77,14 @@
                     </button>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+                No units found for given property.
+                </mat-footer-cell>
+              </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+            <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide-table-footer':(dataSource && dataSource.data.length > 0)}"></mat-footer-row>
             <!--tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center;">
                   No units found for given property.

@@ -36,11 +36,12 @@
                 </mat-footer-cell>
               </ng-container>
             <mat-header-row *matHeaderRowDef="headerColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: headerColumns;" 
+            <mat-row *matRowDef="let row; columns: headerColumns;"></mat-row>
+            <!--mat-row *matRowDef="let row; columns: headerColumns;" 
                 class="element-row"
                 [class.expanded-row]="expandedElement === row"
-                (click)="expandedElement = expandedElement === row ? null : row" matTooltip="Click to see more information" [ngClass]="{'hide-bottom-border':(expandedElement === row)}"></mat-row>
-            <mat-row mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row" (click)="expandedElement = expandedElement === row ? null : row" [ngClass]="{'hide-more-info':(expandedElement !== row)}"></mat-row>
+                (click)="expandedElement = expandedElement === row ? null : row" matTooltip="Click to see more information" [ngClass]="{'hide-bottom-border':(expandedElement === row)}"></mat-row-->
+            <!--mat-row mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row" (click)="expandedElement = expandedElement === row ? null : row" [ngClass]="{'hide-more-info':(expandedElement !== row)}"></mat-row-->
             <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide-table-footer':(dataSource && dataSource.data.length > 0)}"></mat-footer-row>
         </mat-table>
         <!--table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
