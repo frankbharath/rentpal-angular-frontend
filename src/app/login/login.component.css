@@ -11,6 +11,18 @@
     height: calc(100% - 56px);
   }
 }
+.login-button:after {
+  border: none;
+  outline: #fff;
+}
+.login-button{
+  background-color: white;
+  cursor: pointer;
+  border: none;
+}
+.login-button:focus {
+  outline:none;
+}
 .div-login{
   margin-bottom: 25px;
 }
@@ -52,11 +64,7 @@ mat-card{
   margin: auto;
   display: block;
 }
-.login-button{
-  background-color: white;
-  border: 0px;
-  cursor: pointer;
-}
+
 .fb-bg{
   border-color: #1877F2;
   background-color: #1877F2;
